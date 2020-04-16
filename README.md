@@ -24,6 +24,6 @@ Run from command line:
 
 ### Docker and Kubernetes
 
-We build only [latest version of Docker image](https://hub.docker.com/repository/docker/mytardis/es-index) and publish on DockerHub with `mytardis/es-index:latest` image name.
+We build automatically [latest version of Docker image](https://hub.docker.com/r/mytardis/es-index) and publish it on DockerHub with `mytardis/es-index:latest` image name.
 
 Sample file `job.yaml` provide you with example of running an indexing job in Kubernetes.
