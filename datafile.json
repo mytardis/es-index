@@ -1,0 +1,84 @@
+{
+	"settings": {
+		"index": {
+			"refresh_interval": "15s",
+			"number_of_shards": "3",
+			"number_of_replicas": "1",
+			"analysis": {
+				"analyzer": {
+					"analyzer": {
+						"filter": ["lowercase"],
+						"type": "custom",
+						"tokenizer": "trigram"
+					}
+				},
+				"tokenizer": {
+					"trigram": {
+						"type": "nGram",
+						"min_gram": "3",
+						"max_gram": "3"
+					}
+				}
+			}
+		}
+	},
+	"mappings": {
+		"properties": {
+			"created_time": {
+				"type": "date"
+			},
+			"dataset": {
+				"type": "nested",
+				"properties": {
+					"id": {
+						"type": "integer"
+					}
+				}
+			},
+			"experiments": {
+				"properties": {
+					"id": {
+						"type": "long"
+					},
+					"objectacls": {
+						"properties": {
+							"entityId": {
+								"type": "text",
+								"fields": {
+									"keyword": {
+										"type": "keyword",
+										"ignore_above": 256
+									}
+								}
+							},
+							"pluginId": {
+								"type": "text",
+								"fields": {
+									"keyword": {
+										"type": "keyword",
+										"ignore_above": 256
+									}
+								}
+							}
+						}
+					},
+					"public_access": {
+						"type": "long"
+					}
+				}
+			},
+			"filename": {
+				"type": "text",
+				"fields": {
+					"raw": {
+						"type": "keyword"
+					}
+				},
+				"analyzer": "analyzer"
+			},
+			"modification_time": {
+				"type": "date"
+			}
+		}
+	}
+}

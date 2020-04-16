@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: es-index
+  namespace: mytardis
+data:
+  settings.yaml: |
+    database:
+      host: pgbouncer.postgres
+      port: 5432
+      username: user
+      password: pass
+      database: postgres
+
+    elasticsearch:
+      host: elasticsearch.mytardis
+      port: 9200
+
+    index:
+      name: datafile
+      limit: 10000
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: es-index
+  namespace: mytardis
+spec:
+  backoffLimit: 1
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      containers:
+      - name: go
+        image: mytardis/es-index:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: settings
+          mountPath: /app/settings.yaml
+          subPath: settings.yaml
+      restartPolicy: Never
+      volumes:
+      - name: settings
+        configMap:
+          name: es-index
